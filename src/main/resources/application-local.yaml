@@ -1,0 +1,34 @@
+# application config
+server:
+  port: ${SERVER_PORT:8103}
+  servlet:
+    context-path: ${CONTEXT_PATH:/human/query/api}
+
+# spring config
+spring:
+  application:
+    name: ${APPLICATION_NAME:b5b334aab809666a5b1f9b5d6ad19118d7f975002365a1cc839e3a4bf4a2552d}
+
+  # mongo config
+  data:
+    mongodb:
+      uri: ${MONGODB_URI:mongodb://localhost:27017/HumanQueryService}
+      database: ${MONGODB_DATABASE:HumanQueryService}
+
+  # rabbitmq config
+  rabbitmq:
+    username: ${RABBITMQ_USERNAME:guest}
+    password: ${RABBITMQ_PASSWORD:guest}
+    virtual-host: ${RABBITMQ_VIRTUAL_HOST:/}
+    host: ${RABBITMQ_HOST:localhost}
+    port: ${RABBITMQ_PORT:5672}
+    ignoreDeclarationException: ${RABBITMQ_IGNORE_DECLARATION_EXCEPTION:true}
+    concurrentConsumers: ${RABBITMQ_CONCURRENT_CONSUMERS:3}
+    maxConcurrentConsumers: ${RABBITMQ_MAX_CONCURRENT_CONSUMERS:10}
+    receiveTimeout: ${RABBITMQ_RECEIVE_TIMEOUT:100000}
+
+# log config
+logging:
+  level:
+    root: debug
+    org.springframework.data.mongodb.core.MongoTemplate: debug
