@@ -34,11 +34,9 @@ public class UserFindDetailBySelfController {
     @PreAuthorize(SecurityPermission.AUTHENTICATED)
     @GetMapping(EndPoint.User.DETAIL_CURRENT)
     public ResponseEntity<IBaseResponse> findDetailUserBySelf() {
-        final Map<String, String> account = SecurityUtils.getCurrentAccount(rabbitTemplate);
-
         return new ResponseEntity<>(
                 userFindDetailService.execute(new UserFindDetailRequest().setUserId(
-                        Integer.parseInt(account.get("userId")))),
+                        SecurityUtils.getCurrentAccount(rabbitTemplate).getUserId())),
                 HttpStatus.OK
         );
     }
