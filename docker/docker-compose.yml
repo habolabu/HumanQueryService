@@ -1,0 +1,51 @@
+version: "1.0"
+
+volumes:
+  human_query_data:
+  human_query_gradle_data:
+
+networks:
+  api_gateway_net:
+    external: true
+  query_database_net:
+    external: true
+  rabbitmq_net:
+    external: true
+
+services:
+  human_query_service:
+    container_name: "human-query-service"
+    build:
+      dockerfile: ./docker/Dockerfile
+      context: ..
+    ports:
+      - ${HUMAN_QUERY_HOST_PORT}:${HUMAN_QUERY_CONTAINER_PORT}
+    volumes:
+      - human_query_data:${HUMAN_QUERY_SERVICE_VOLUMES}
+      - human_query_gradle_data:${HUMAN_QUERY_GRADLE_VOLUMES}
+    env_file:
+      - .env
+    restart: unless-stopped
+    networks:
+      - api_gateway_net
+      - query_database_net
+      - rabbitmq_net
+    environment:
+      HUMAN_QUERY_HOST_PORT: ${HUMAN_QUERY_HOST_PORT}
+      HUMAN_QUERY_CONTAINER_PORT: ${HUMAN_QUERY_CONTAINER_PORT}
+      HUMAN_QUERY_SERVICE_VOLUMES: ${HUMAN_QUERY_SERVICE_VOLUMES}
+      HUMAN_QUERY_GRADLE_VOLUMES: ${HUMAN_QUERY_GRADLE_VOLUMES}
+      SERVER_PORT: ${SERVER_PORT}
+      CONTEXT_PATH: ${CONTEXT_PATH}
+      APPLICATION_NAME: ${APPLICATION_NAME}
+      MONGODB_URI: ${MONGODB_URI}
+      MONGODB_DATABASE: ${MONGODB_DATABASE}
+      RABBITMQ_USERNAME: ${RABBITMQ_USERNAME}
+      RABBITMQ_PASSWORD: ${RABBITMQ_PASSWORD}
+      RABBITMQ_VIRTUAL_HOST: ${RABBITMQ_VIRTUAL_HOST}
+      RABBITMQ_HOST: ${RABBITMQ_HOST}
+      RABBITMQ_PORT: ${RABBITMQ_PORT}
+      RABBITMQ_IGNORE_DECLARATION_EXCEPTION: ${RABBITMQ_IGNORE_DECLARATION_EXCEPTION}
+      RABBITMQ_CONCURRENT_CONSUMERS: ${RABBITMQ_CONCURRENT_CONSUMERS}
+      RABBITMQ_MAX_CONCURRENT_CONSUMERS: ${RABBITMQ_MAX_CONCURRENT_CONSUMERS}
+      RABBITMQ_RECEIVE_TIMEOUT: ${RABBITMQ_RECEIVE_TIMEOUT}

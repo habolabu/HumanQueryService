@@ -17,8 +17,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
-import java.util.Map;
-
 @RestController
 @RequiredArgsConstructor
 @RequestMapping(EndPoint.Avatar.BASE)
@@ -38,11 +36,10 @@ public class AvatarFindAllBySelfController {
     public ResponseEntity<IBaseResponse> findAllAvatarBySelf(
             @RequestParam(required = false, defaultValue = "1") Integer page
     ) {
-        final Map<String, String> account = SecurityUtils.getCurrentAccount(rabbitTemplate);
         return new ResponseEntity<>(
                 avatarFindAllService.execute(
                         new AvatarFindAllRequest()
-                                .setUserId(Integer.parseInt(account.get("userId")))
+                                .setUserId(SecurityUtils.getCurrentAccount(rabbitTemplate).getUserId())
                                 .setPage(page)
                 ),
                 HttpStatus.OK

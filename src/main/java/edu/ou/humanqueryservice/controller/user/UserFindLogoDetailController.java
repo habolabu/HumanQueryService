@@ -33,12 +33,11 @@ public class UserFindLogoDetailController {
      */
     @PreAuthorize(SecurityPermission.AUTHENTICATED)
     @GetMapping(EndPoint.User.LOGO_DETAIL)
-    public ResponseEntity<IBaseResponse> findLogoDetail() {
-        final Map<String, String> account = SecurityUtils.getCurrentAccount(rabbitTemplate);
+    public ResponseEntity<IBaseResponse> findLogoDetail() {;
 
         return new ResponseEntity<>(
                 userFindLogoDetailService.execute(new UserFindLogoDetailRequest().setUserId(
-                        Integer.parseInt(account.get("userId")))),
+                        SecurityUtils.getCurrentAccount(rabbitTemplate).getUserId())),
                 HttpStatus.OK
         );
     }

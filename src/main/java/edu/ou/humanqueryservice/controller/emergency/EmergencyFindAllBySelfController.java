@@ -38,11 +38,10 @@ public class EmergencyFindAllBySelfController {
     public ResponseEntity<IBaseResponse> findAllEmergencyBySelf(
             @RequestParam(required = false, defaultValue = "1") Integer page
     ) {
-        final Map<String, String> account = SecurityUtils.getCurrentAccount(rabbitTemplate);
         return new ResponseEntity<>(
                 emergencyFindAllService.execute(
                         new EmergencyFindAllRequest()
-                                .setUserId(Integer.parseInt(account.get("userId")))
+                                .setUserId(SecurityUtils.getCurrentAccount(rabbitTemplate).getUserId())
                                 .setPage(page)
                 ),
                 HttpStatus.OK
