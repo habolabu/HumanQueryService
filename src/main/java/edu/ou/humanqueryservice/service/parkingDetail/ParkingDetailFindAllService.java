@@ -67,7 +67,7 @@ public class ParkingDetailFindAllService extends BaseService<IBaseRequest, IBase
                 new SuccessPojo<>(
                         Map.of(
                                 "data", parkingDetailDocuments,
-                                "totalPage", pageAmount
+                                "totalPage", PaginationUtils.getPageAmount(pageAmount)
                         ),
                         CodeStatus.SUCCESS,
                         Message.Success.SUCCESSFUL
