@@ -13,7 +13,7 @@ import java.util.List;
 @Component
 @RequiredArgsConstructor
 public class RoomDetailCheckEmptyListener implements IBaseListener<Integer, Object> {
-    private final IBaseRepository<Integer, List<RoomDetailDocument>> roomDetailFindByParkingIdRepository;
+    private final IBaseRepository<Integer, List<RoomDetailDocument>> roomDetailFindByRoomIdRepository;
 
     /**
      * check room is empty or not
@@ -25,7 +25,7 @@ public class RoomDetailCheckEmptyListener implements IBaseListener<Integer, Obje
     @Override
     @RabbitListener(queues = RoomDetailCheckEmptyQueueE.QUEUE)
     public Object execute(Integer roomId) {
-        return roomDetailFindByParkingIdRepository
+        return roomDetailFindByRoomIdRepository
                 .execute(roomId)
                 .isEmpty();
     }
